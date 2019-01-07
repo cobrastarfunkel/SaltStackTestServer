@@ -29,7 +29,7 @@ def output_test():
 
 
 
-def _yum_test():
+def yum_test():
     yum_output = __salt__['cmd.run']('yum update -y', python_shell=True)
     if 'No packages' in yum_output:
         log.warning('No Packages marked for Update')
