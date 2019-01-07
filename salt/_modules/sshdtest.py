@@ -5,7 +5,7 @@ import logging
 log = logging.getLogger(__name__)
 
 __func_alias__ = {
-    'output_test': 'optest'
+    'yum_test': 'yum'
 }
 
 
@@ -16,16 +16,6 @@ def __virtual__():
     if __grains__['os_family'] != 'RedHat':
         return False
     return __virtualname__
-
-def output_test():
-    output = __salt__['cmd.run']('netstat -tulpn | grep mysql', python_shell=True)
-    if 'tcp' not in output:
-        log.error('MySql not found')
-        return (False, 'MySql not running!')
-    username = __opts__['username']
-    log.info('MYSql running here\'s a Log!')
-    log.warning('Here\'s a Warning')
-    return (True, 'Username: ' + str(username))
 
 
 
