@@ -1,14 +1,17 @@
 
+
 reactor_test:
   local.cmd.run:
-    - tgt: {{ data['id'] }}
+    - tgt: 'id:salt-master'
+    - tgt_type: grain
     - arg:
       - echo $(date) " Reactor" >> /tmp/reactTest.txt
 
 
 react_to_reactor_test:
   local.state.apply:
-    - tgt: {{ data['id'] }}
+    - tgt: 'id:salt-master'
+    - tgt_type: grain
     - arg:
       - post_react_test
     - require:
