@@ -1,3 +1,13 @@
+
+'''
+@Author: Ian Cobia
+Version 1.0
+
+Salt module that runs yum update, logs what happened, and pushes that back to the master.
+
+TODO: Add reboot to a successful update
+'''
+
 import __future__
 import salt.utils
 import salt.loader
@@ -53,17 +63,17 @@ def _yum_test():
         push_file = "/tmp/" +  __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "No_packages"
         f = open(push_file, "w")
         f.write(yum_output)
-        return (True, push_file)
+        return (False, push_file)
     
     if 'failed' in yum_output:
         log.error('#### Yum Cmd Failed! ####')
-        push_file = "/tmp/updated_minions/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "FAILED"
+        push_file = "/tmp/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "FAILED"
         f = open(push_file, "w")
         f.write(yum_output)
         return (False, push_file)
     
     else:
-        push_file = "/tmp/updated_minions/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "Succeeded"
+        push_file = "/tmp/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "Succeeded"
         f = open(push_file, "w")
         f.write(yum_output)
         return (True, push_file)
@@ -71,9 +81,10 @@ def _yum_test():
 
 def run_updates():
     '''
-    Run _yum_test module, if outcome is positive write the date to a file.
-    
-    #### TODO: CHANGE to Reboot if successful after testing is done
+    Run _yum_test module, push the results in a file to the maater, and reboot
+    if yum had a successful update.  No packages marked for update is not
+    considered successful because a reboot isn't required.  This will show in
+    the output from Salt.
     
     CLI Example:
         salt "*" yumtest.yum
@@ -82,8 +93,11 @@ def run_updates():
 
     if update_succeeded:
        __salt__['cp.push'](push_file, remove_source=True)
-       return (True, "Update Run and files pushed to master")
+       __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
+       # TODO: _sp.call("reboot", shell=True)
+       return (True, "Update Run and files pushed to master Rebooting.....")
 
     else:
       __salt__['cp.push'](push_file, remove_source=True)
-      return (False, "Check Minion Log for update Error")
+      __salt__['event.fire_master']('{"Update":"Failed"}', '/update/complete')
+      return (False, "Check Minion Log or /tmp/updated_minions/ for update Error")
