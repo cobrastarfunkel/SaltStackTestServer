@@ -40,16 +40,21 @@ def _yum_test():
 
     '''
     yum_output = __salt__['cmd.run']('yum update -y', python_shell=True)
-    
+    file_name_by_date = _sp.call("$(date)", shell=True) #### Fix Me ####
+    f = open("/tmp/%sYum_update.txt" % file_name_by_date, "a")
+
     if 'No packages' in yum_output:
         log.warning('No Packages marked for Update')
-        return (False, 'No Packages Marked for Update')
+        f.write(yum_output)
+        return (False, yum_output)
     
     if 'failed' in yum_output:
         log.error('#### Yum Cmd Failed! ####')
-        return (False, 'Yum Update Failed')
+        f.write(yum_output)
+        return (False, yum_output)
     
     else:
+        f.write(yum_output)
         return (True, 'Yum Update Suceeded')
 
 
