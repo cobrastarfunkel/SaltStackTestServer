@@ -1,10 +1,17 @@
 import __future__
 import salt.utils
+import salt.loader
+import salt.config
 import logging
 import subprocess as _sp
+import time
 
 # Allows logging to be used
 log = logging.getLogger(__name__)
+
+# Access minion grains by loading minion config
+__opts__ = salt.config.minion_config('/etc/salt/minion')
+__grains__ = salt.loader.grains(__opts__)
 
 # Alias for the run_updates module
 __func_alias__ = {
@@ -40,22 +47,26 @@ def _yum_test():
 
     '''
     yum_output = __salt__['cmd.run']('yum update -y', python_shell=True)
-    file_name_by_date = _sp.call("$(date)", shell=True) #### Fix Me ####
-    f = open("/tmp/%sYum_update.txt" % file_name_by_date, "a")
 
     if 'No packages' in yum_output:
         log.warning('No Packages marked for Update')
+        push_file = "/tmp/" +  __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "No_packages"
+        f = open(push_file, "w")
         f.write(yum_output)
-        return (False, yum_output)
+        return (True, push_file)
     
     if 'failed' in yum_output:
         log.error('#### Yum Cmd Failed! ####')
+        push_file = "/tmp/updated_minions/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "FAILED"
+        f = open(push_file, "w")
         f.write(yum_output)
-        return (False, yum_output)
+        return (False, push_file)
     
     else:
+        push_file = "/tmp/updated_minions/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "Succeeded"
+        f = open(push_file, "w")
         f.write(yum_output)
-        return (True, 'Yum Update Suceeded')
+        return (True, push_file)
 
 
 def run_updates():
@@ -67,8 +78,12 @@ def run_updates():
     CLI Example:
         salt "*" yumtest.yum
     '''
-    if _yum_test():
-       _sp.call("echo $(date) >> /tmp/yum_test.txt", shell=True)
+    update_succeeded, push_file = _yum_test()
+
+    if update_succeeded:
+       __salt__['cp.push'](push_file, remove_source=True)
+       return (True, "Update Run and files pushed to master")
 
     else:
+      __salt__['cp.push'](push_file, remove_source=True)
       return (False, "Check Minion Log for update Error")
