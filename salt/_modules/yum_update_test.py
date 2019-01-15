@@ -60,21 +60,21 @@ def _yum_test():
 
     if 'No packages' in yum_output:
         log.warning('No Packages marked for Update')
-        push_file = '/tmp/%s_%s_No_Packages' % (__grains__['id'], time.strftime("%Y%m%d"))
+        push_file = '/tmp/{}_{}_No_Packages'.format(__grains__['id'], time.strftime("%Y%m%d"))
         f = open(push_file, 'w')
         f.write(yum_output)
         return (False, push_file)
     
     if ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
         log.error('#### Yum Cmd Failed! ####')
-        push_file = '/tmp/%s_%s_FAILED' % (__grains__['id'], time.strftime("%Y%m%d"))
-        f = open(push_file, "w")
+        push_file = '/tmp/{}_{}_FAILED'.format(__grains__['id'], time.strftime("%Y%m%d"))
+        f = open(push_file, 'w')
         f.write(yum_output)
         return (False, push_file)
     
     else:
-        push_file = '/tmp/%s_%s_Succeeded' % (__grains__['id'], time.strftime("%Y%m%d"))
-        f = open(push_file, "w")
+        push_file = '/tmp/{}_{}_Succeeded'.format(__grains__['id'], time.strftime("%Y%m%d"))
+        f = open(push_file, 'w')
         f.write(yum_output)
         return (True, push_file)
 
