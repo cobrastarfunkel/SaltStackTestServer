@@ -65,7 +65,7 @@ def _yum_test():
         f.write(yum_output)
         return (False, push_file)
     
-    if 'failed' in yum_output:
+    if ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
         log.error('#### Yum Cmd Failed! ####')
         push_file = "/tmp/" + __grains__['id'] + "_" + time.strftime("%Y%m%d") + "_" + "FAILED"
         f = open(push_file, "w")
