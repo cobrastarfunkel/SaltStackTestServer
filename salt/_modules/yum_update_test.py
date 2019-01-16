@@ -14,6 +14,7 @@ import salt.loader
 import salt.config
 import logging
 import subprocess as _sp
+import os.path
 import time
 
 # Allows logging to be used
@@ -89,6 +90,9 @@ def run_updates():
     CLI Example:
         salt "*" yumtest.yum
     '''
+    if not os.path.exists('/tmp/updated_minions'):
+        _sp.call('mkdir /tmp/updated_minions', shell=True)
+
     update_succeeded, push_file = _yum_test()
 
     if update_succeeded:
