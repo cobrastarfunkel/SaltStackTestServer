@@ -26,11 +26,11 @@ __grains__ = salt.loader.grains(__opts__)
 
 # Alias for the run_updates module
 __func_alias__ = {
-    'run_updates': 'yum'
+    'run_updates': 'update'
 }
 
 # Salt module can be called by this name
-__virtualname__ = 'yumtest'
+__virtualname__ = 'yum'
 
 
 
@@ -88,7 +88,7 @@ def run_updates():
     the output from Salt.
     
     CLI Example:
-        salt "*" yumtest.yum
+        salt "*" yum.update
     '''
     if not os.path.exists('/tmp/updated_minions'):
         _sp.call('mkdir /tmp/updated_minions', shell=True)
