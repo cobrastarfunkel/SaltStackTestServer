@@ -37,11 +37,6 @@ __virtualname__ = 'yum'
 def __virtual__():
     '''
     Check if OS is RHEL or not.
-
-    #### TODO: Read up on __virtual__ and find out how to use it for multiple OS's
-    #### Possibly just make seperate modules and have this module call the appropriate one based 
-    #### on OS grain.  Probably the better idea
-
     '''
     if __grains__['os_family'] != 'RedHat':
         return False 
