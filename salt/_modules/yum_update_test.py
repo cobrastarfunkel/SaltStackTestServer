@@ -66,7 +66,7 @@ def _yum_test():
         f.write(yum_output)
         return (False, push_file)
     
-    if ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
+    elif ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
         log.error('#### Yum Cmd Failed! ####')
         push_file = '/tmp/{}_{}_FAILED'.format(__grains__['id'], time.strftime("%Y%m%d"))
         f = open(push_file, 'w')
@@ -101,7 +101,13 @@ def run_updates():
        # TODO: _sp.call("reboot", shell=True)
        return (True, 'Update Run and files pushed to master Rebooting.....')
 
+    elif 'No_Packages' in push_file:
+      __salt__['cp.push'](push_file, remove_source=True)
+      __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
+      return (True, 'No Packages Marked for Update')
+
     else:
       __salt__['cp.push'](push_file, remove_source=True)
       __salt__['event.fire_master']('{"Update":"Failed"}', '/update/complete')
       return (False, 'Check Minion Log or /tmp/updated_minions/ for update Error')
+
