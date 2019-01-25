@@ -41,6 +41,12 @@ def __virtual__():
 
 
 def update_servers():
+    '''
+    Runs update for Debian and RedHat based systems.
+
+    CLI Example:
+        salt "*" linuxUpdates.updates
+    '''
     if __grains__['os_family'] == 'RedHat':
         return __salt__['yum.update']()
 
