@@ -102,23 +102,27 @@ def _push_files(push_file, file_path):
          'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
          % (push_file, file_path), shell=True) 
          
-         log.error('###########Before IF {}/{}##############'.format(file_path, push_file))
-
          if os.path.exists('{}/{}'.format(file_path, push_file)):
-           log.error('!!!!!!!!!AFTER {}/{}!!!!!!!!!!!!'.format(file_path, push_file))
            break;
     
 
 
-def run_updates():
+def run_updates(reboot=False):
     '''
-    Run _yum_test module, push the results in a file to the maater, and reboot
+    Run _yum_test module, push the results in a file to the master, and reboot
     if yum had a successful update.  No packages marked for update is not
     considered successful because a reboot isn't required.  This will show in
-    the output from Salt.
+    the output from Salt. Add yes to the command if you want it to reboot the
+    server on a successful update, it will not reboot if no packages are marked
+    or an error with yum occurs.
     
     CLI Example:
-        salt "*" yum.update
+    ## Default, will not reboot server
+        salt "*" yum.update 
+
+    ## This command will Reboot the server
+        salt "*" yum.update true
+
     '''
 
     # Path where you want the Log from the update to be stored
@@ -133,17 +137,23 @@ def run_updates():
     if update_succeeded:
        __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
        # TODO: _sp.call("reboot", shell=True)
+       
+       if reboot:
+         return (True, 'Reboot')
+      
        return (
        'Update Run and files pushed to master Rebooting.....', 
        'Log located in {} '.format(update_file_path))
 
     elif 'No_Packages' in push_file:
       __salt__['event.fire_master']('{"Update":"NoPacks"}', '/update/nopacks')
+      
       return (
       'No Packages Marked for Update', 
       'Log located in {} '.format(update_file_path))
 
     else:
       __salt__['event.fire_master']('{"Update":"Failed"}', '/update/complete')
-      return (False, 'Check Minion Log or {} for update Error'.format(update_file_path))
+      
+      return (False, push_file)
 
