@@ -40,15 +40,16 @@ def __virtual__():
 
 
 
-def update_servers():
+def update_servers(reboot=False):
     '''
     Runs update for Debian and RedHat based systems.
 
     CLI Example:
         salt "*" linuxUpdates.updates
     '''
+
     if __grains__['os_family'] == 'RedHat':
-        return __salt__['yum.update']()
+        return __salt__['yum.update'](reboot)
 
     elif __grains__['os_family'] == 'Debian':
         return (True, "Debian Server")
