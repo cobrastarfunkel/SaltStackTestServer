@@ -20,9 +20,13 @@ import time
 # Allows logging to be used
 log = logging.getLogger(__name__)
 
+
+
 # Access minion grains by loading minion config
 __opts__ = salt.config.minion_config('/etc/salt/minion')
 __grains__ = salt.loader.grains(__opts__)
+
+
 
 # Alias for the run_updates module
 __func_alias__ = {
@@ -58,7 +62,7 @@ def _yum_test():
     if 'No packages' in yum_output:
         log.warning('No Packages marked for Update')
         push_file = '{}_{}_No_Packages'.format(__grains__['id'], time.strftime("%Y%m%d"))
-        f = open(push_file, 'w')
+        f = open('/tmp/{}'.format(push_file), 'w')
         f.write(yum_output)
         return (False, push_file)
     
@@ -77,14 +81,33 @@ def _yum_test():
 
 
 
-def push_files(push_file, file_path):
-       __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
-       
-       # Move the files from salt cache
-       _sp.call(
-       'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
-       % (push_file, file_path), shell=True)
+def _push_files(push_file, file_path):
+       '''
+       Push the files from the minions to the master cache.  They are stored in
+       /var/cache/salt/master/{minion_id}/files/
+       The files are then moved using find to the directory specified above.
+       '''
 
+       for i in range(0, 5):
+         
+         # Create Log dir if not present
+         if not os.path.exists(file_path):
+            _sp.call('mkdir {}'.format(file_path), shell=True)
+
+         # Salt push command
+         __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
+       
+         # Move the files from salt cache
+         _sp.call(
+         'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
+         % (push_file, file_path), shell=True) 
+         
+         log.error('###########Before IF {}/{}##############'.format(file_path, push_file))
+
+         if os.path.exists('{}/{}'.format(file_path, push_file)):
+           log.error('!!!!!!!!!AFTER {}/{}!!!!!!!!!!!!'.format(file_path, push_file))
+           break;
+    
 
 
 def run_updates():
@@ -101,15 +124,11 @@ def run_updates():
     # Path where you want the Log from the update to be stored
     update_file_path = '/home/update_minions'
 
-
-    if not os.path.exists(update_file_path):
-        _sp.call('mkdir {}'.format(update_file_path), shell=True)
-
     # Run the yum update and save output
     update_succeeded, push_file = _yum_test()
     
     # Push the files from minion to master
-    push_files(push_file, update_file_path)
+    _push_files(push_file, update_file_path)
 
     if update_succeeded:
        __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
