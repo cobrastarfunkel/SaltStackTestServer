@@ -85,26 +85,29 @@ def _push_files(push_file, file_path):
        '''
        Push the files from the minions to the master cache.  They are stored in
        /var/cache/salt/master/{minion_id}/files/
-       The files are then moved using find to the directory specified above.
        '''
 
-       for i in range(0, 5):
          
-         # Create Log dir if not present
-         if not os.path.exists(file_path):
-            _sp.call('mkdir {}'.format(file_path), shell=True)
+       # Create Log dir if not present
+       if not os.path.exists(file_path):
+          _sp.call('mkdir {}'.format(file_path), shell=True)
 
-         # Salt push command
-         __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
+       # Salt push command
+       __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
        
-         # Move the files from salt cache
-         _sp.call(
-         'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
-         % (push_file, file_path), shell=True) 
+       '''
+
+       This doesn't work because the command needs to be run on  the master for each
+       minion that completes.  Reactor will work for now but I would rather it be in here
+
+       __salt__['salt.cmd'](
+       'cmd.run',
+       'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
+       % (push_file, file_path)) 
          
-         if os.path.exists('{}/{}'.format(file_path, push_file)):
-           break;
-    
+       if os.path.exists('{}/{}'.format(file_path, push_file)):
+         break;
+       ''' 
 
 
 def run_updates(reboot=False):
