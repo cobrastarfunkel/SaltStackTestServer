@@ -45,7 +45,9 @@ def pull_updates(file_path='/home/update_minions/'):
         
         log.error('#### {} not found####'.format(file_path))
 
-        return (False, '{} not Found!'.format(file_path))
+        return (
+        False, '{} directory not Found! Please create before calling this runner'.format(file_path)
+        + ' or use the default directory')
 
     ret_minions = ''
     client = salt.client.LocalClient(__opts__['conf_file'])
