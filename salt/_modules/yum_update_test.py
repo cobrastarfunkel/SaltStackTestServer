@@ -149,7 +149,7 @@ def run_updates(reboot=False):
        'Log located in {} '.format(update_file_path))
 
     elif 'No_Packages' in push_file:
-      __salt__['event.fire_master']('{"Update":"NoPacks"}', '/update/nopacks')
+      __salt__['event.fire_master']('{"Update":"NoPacks"}', '/update/complete')
       
       return (
       'No Packages Marked for Update', 
