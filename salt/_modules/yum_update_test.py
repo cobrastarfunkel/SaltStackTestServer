@@ -1,11 +1,10 @@
 
 '''
 @Author: Ian Cobia
-Version 1.0
+Version 1.1
 
 Salt module that runs yum update, logs what happened, and pushes that back to the master.
 
-TODO: Add reboot to a successful update
 '''
 
 import __future__
@@ -95,29 +94,16 @@ def _push_files(push_file, file_path):
        # Salt push command
        __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
        
-       '''
-
-       This doesn't work because the command needs to be run on  the master for each
-       minion that completes.  Reactor will work for now but I would rather it be in here
-
-       __salt__['salt.cmd'](
-       'cmd.run',
-       'find /var/cache/salt/master/ -name \'%s\' -exec mv -t %s {} +' 
-       % (push_file, file_path)) 
-         
-       if os.path.exists('{}/{}'.format(file_path, push_file)):
-         break;
-       ''' 
 
 
 def run_updates(reboot=False):
     '''
-    Run _yum_test module, push the results in a file to the master, and reboot
-    if yum had a successful update.  No packages marked for update is not
-    considered successful because a reboot isn't required.  This will show in
-    the output from Salt. Add yes to the command if you want it to reboot the
+    Runs the _yum_test module, pushes the results in a file to the master, and reboots
+    if yum had a successful update and True was passed as an argument.  
+    No packages marked for update is not considered successful because a reboot isn't required.  
+    This will show in the output from Salt. Add yes to the command if you want it to reboot the
     server on a successful update, it will not reboot if no packages are marked
-    or an error with yum occurs.
+    or an error with yum occurs even if you pass True as an argument.
     
     CLI Example:
     ## Default, will not reboot server
@@ -139,9 +125,9 @@ def run_updates(reboot=False):
 
     if update_succeeded:
        __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
-       # TODO: _sp.call("reboot", shell=True)
        
        if reboot:
+         _sp.call("reboot", shell=True)
          return (True, 'Reboot')
       
        return (
