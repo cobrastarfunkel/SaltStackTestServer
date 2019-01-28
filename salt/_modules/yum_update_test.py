@@ -48,7 +48,7 @@ def __virtual__():
 
 
 
-def _yum_test():
+def _yum_run():
     '''
     A private function to test running Yum updates by monitoring whether the 
     command returns certain Strings.  Also testing logging feature levels
@@ -98,7 +98,7 @@ def _push_files(push_file, file_path):
 
 def run_updates(reboot=False):
     '''
-    Runs the _yum_test module, pushes the results in a file to the master, and reboots
+    Runs the _yum_run module, pushes the results in a file to the master, and reboots
     if yum had a successful update and True was passed as an argument.  
     No packages marked for update is not considered successful because a reboot isn't required.  
     This will show in the output from Salt. Add yes to the command if you want it to reboot the
@@ -118,7 +118,7 @@ def run_updates(reboot=False):
     update_file_path = '/home/update_minions'
 
     # Run the yum update and save output
-    update_succeeded, push_file = _yum_test()
+    update_succeeded, push_file = _yum_run()
     
     # Push the files from minion to master
     _push_files(push_file, update_file_path)
