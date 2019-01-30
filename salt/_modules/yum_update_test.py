@@ -20,7 +20,6 @@ import time
 log = logging.getLogger(__name__)
 
 
-
 # Access minion grains by loading minion config
 __opts__ = salt.config.minion_config('/etc/salt/minion')
 __grains__ = salt.loader.grains(__opts__)
@@ -43,14 +42,14 @@ def __virtual__():
     Check if OS is RHEL or not.
     '''
     if __grains__['os_family'] != 'RedHat':
-        return False 
+        return False
     return __virtualname__
 
 
 
 def _yum_run():
     '''
-    A private function to test running Yum updates by monitoring whether the 
+    A private function to test running Yum updates by monitoring whether the
     command returns certain Strings.  Also testing logging feature levels
 
     #### TODO: Need to mess with yum repo configs to cause errors to cover possible bad outcomes
@@ -64,18 +63,18 @@ def _yum_run():
         f = open('/tmp/{}'.format(push_file), 'w')
         f.write(yum_output)
         return (False, push_file)
-    
+
     elif ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
         log.error('#### Yum Cmd Failed! ####')
         push_file = '{}_{}_FAILED'.format(__grains__['id'], time.strftime("%Y%m%d"))
-        f = open(push_file, 'w')
         f.write(yum_output)
+        f = open('/tmp/{}'.format(push_file), 'w')
         return (False, push_file)
-    
+
     else:
         push_file = '{}_{}_Succeeded'.format(__grains__['id'], time.strftime("%Y%m%d"))
-        f = open(push_file, 'w')
         f.write(yum_output)
+        f = open('/tmp/{}'.format(push_file), 'w')
         return (True, push_file)
 
 
@@ -86,28 +85,28 @@ def _push_files(push_file, file_path):
        /var/cache/salt/master/{minion_id}/files/
        '''
 
-         
+
        # Create Log dir if not present
        if not os.path.exists(file_path):
           _sp.call('mkdir {}'.format(file_path), shell=True)
 
        # Salt push command
        __salt__['cp.push']('/tmp/{}'.format(push_file), remove_source=True)
-       
+
 
 
 def run_updates(reboot=False):
     '''
     Runs the _yum_run module, pushes the results in a file to the master, and reboots
-    if yum had a successful update and True was passed as an argument.  
-    No packages marked for update is not considered successful because a reboot isn't required.  
+    if yum had a successful update and True was passed as an argument.
+    No packages marked for update is not considered successful because a reboot isn't required.
     This will show in the output from Salt. Add yes to the command if you want it to reboot the
     server on a successful update, it will not reboot if no packages are marked
     or an error with yum occurs even if you pass True as an argument.
-    
+
     CLI Example:
     ## Default, will not reboot server
-        salt "*" yum.update 
+        salt "*" yum.update
 
     ## This command will Reboot the server
         salt "*" yum.update true
@@ -119,30 +118,30 @@ def run_updates(reboot=False):
 
     # Run the yum update and save output
     update_succeeded, push_file = _yum_run()
-    
+
     # Push the files from minion to master
     _push_files(push_file, update_file_path)
 
     if update_succeeded:
        __salt__['event.fire_master']('{"Update":"Succeeded"}', '/update/complete')
-       
+
        if reboot:
          _sp.call("reboot", shell=True)
          return (True, 'Reboot')
-      
+
        return (
-       'Update Run and files pushed to master Rebooting.....', 
+       'Update Run and files pushed to master Rebooting.....',
        'Log located in {} '.format(update_file_path))
 
     elif 'No_Packages' in push_file:
       __salt__['event.fire_master']('{"Update":"NoPacks"}', '/update/complete')
-      
+
       return (
-      'No Packages Marked for Update', 
+      'No Packages Marked for Update',
       'Log located in {} '.format(update_file_path))
 
     else:
       __salt__['event.fire_master']('{"Update":"Failed"}', '/update/complete')
-      
+
       return (False, push_file)
 
