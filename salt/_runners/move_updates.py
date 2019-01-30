@@ -33,8 +33,8 @@ def pull_updates(file_path='/home/update_minions/'):
     is called it will create the directory.  A different directory can passed as an
     argument, but to prevent malicious commands the directory wont be made
     by this runner.  It needs to be created before running.
-    
-    To sync Runners: 
+
+    To sync Runners:
         salt-run saltutil.sync_runners
 
 
@@ -42,7 +42,7 @@ def pull_updates(file_path='/home/update_minions/'):
         salt-run move_updates.pull
     '''
     if not os.path.exists(file_path):
-        
+
         log.error('#### {} not found####'.format(file_path))
 
         return (
@@ -54,11 +54,11 @@ def pull_updates(file_path='/home/update_minions/'):
     minions = client.cmd('*', 'test.ping', timeout=1)
 
     for minion in sorted(minions):
-      
+
       _sp.call(
       'find /var/cache/salt/master/minions/%s/files/tmp/ -name \'%s*\' -exec mv -t %s {} +'
-      % (minion, minion, file_path), shell=True) 
+      % (minion, minion, file_path), shell=True)
 
       ret_minions += "{}\n".format(minion)
-    
+
     return (True, ret_minions, 'Files stored in {}'.format(file_path))
