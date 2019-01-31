@@ -1,5 +1,5 @@
 
-public:
+pxe_ports:
   firewalld.present:
     - name: public
     - services:
