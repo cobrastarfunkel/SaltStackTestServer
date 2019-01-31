@@ -1,5 +1,5 @@
 
-
+# Create the saltstack firewall service
 saltstack:
   firewalld.service:
     - name: saltstack
@@ -7,7 +7,7 @@ saltstack:
       - 4505/tcp
       - 4506/tcp
 
-
+# Add standard rules to public
 public:
   firewalld.present:
     - name: public
