@@ -1,0 +1,6 @@
+
+# ignore ISO's
+*.iso
+
+#Ignore ISO dir
+vmIsos/
