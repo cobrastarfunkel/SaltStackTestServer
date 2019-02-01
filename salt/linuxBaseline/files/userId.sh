@@ -9,7 +9,7 @@ function main {
     for user in $(salt-call user.list_users); do
         id=$(id -u $user 2>/dev/null)
         if ((id > 999)) && ((id != 65534)); then
-            git clone https://github.com/VundleVim/Vundle.vim.git /home/$user/.vim/bundle/Vundle.vim;
+            [[ -d /home/$user/.vim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git /home/$user/.vim/bundle/Vundle.vim;
         fi
     done
 
