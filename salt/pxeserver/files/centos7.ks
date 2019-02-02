@@ -6,8 +6,6 @@ firewall --disabled
 install
 # Use FTP installation media
 url --url="ftp://192.168.56.2/pub/"
-# Root password
-rootpw --iscrypted $1$e2wrcGGX$tZPQKPsXVhNmbiGg53MN41
 # System authorization information
 auth useshadow passalgo=sha512
 # Use graphical install
