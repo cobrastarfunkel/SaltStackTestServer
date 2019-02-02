@@ -16,7 +16,7 @@ vsftpd:
 
 bios_tftp_dirs:
   file.directory:
-    - name:      /var/lib/tftpboot/pxelinux/pxelinux.cfg
+    - name:      /var/lib/tftpboot/pxelinux.cfg
     - user:      root
     - group:     root
     - dir_mode:  755
