@@ -1,2 +1,0 @@
-testDir:
-  - /tmp/jinjaTestDir/
