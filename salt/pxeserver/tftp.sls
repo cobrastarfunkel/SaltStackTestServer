@@ -1,5 +1,5 @@
 
-vsftpd_conf:
+tftp_conf:
   file.managed:
     - source:    salt://{{ tpldir }}/files/tftp
     - name:      /etc/xinetd.d/tftp
@@ -12,7 +12,7 @@ xinetd:
     - enable:    False
     - reload:    True
     - watch:
-      - vsftpd_conf
+      - tftp_conf
 
 bios_tftp_dirs:
   file.directory:

@@ -10,3 +10,9 @@ label 1
 MENU LABEL Arch Linux x86_64
 LINUX /arch/boot/x86_64/vmlinuz
 INITRD /arch/boot/intel_ucode.img,/arch/boot/amd_ucode.img,/arch/boot/x86_64/archiso.img
+SYSAPPEND 2
+
+label 2
+MENU LABEL CentOS 7
+KERNEL /centos/vmlinuz
+APPEND initrd=/centos/initrd.img inst.repo=ftp://192.168.56.2/pub/ ks=ftp://192.168.56.2/pub/centos7.ks
