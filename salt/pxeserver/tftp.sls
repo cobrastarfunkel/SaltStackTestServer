@@ -7,7 +7,7 @@ vsftpd_conf:
     - require: 
       - sls: {{ tpldir }}.pxePacksPorts
 
-vsftpd:
+xinetd:
   service.running:
     - enable:    False
     - reload:    True

@@ -18,3 +18,15 @@ mountArchIso:
       - /media/archlinux-2019.01.01-x86_64.iso
       - /mnt/arch
 {% endif %}
+
+move_arch_boot_files:
+  cmd.run:
+    - name: cp -rp /mnt/arch/arch /var/lib/tftpboot/ 
+    - require:
+      - /media/archlinux-2019.01.01-x86_64.iso
+
+default_menu:
+  file.managed:
+      - source: salt://{{ tpldir }}/files/default
+      - name: /var/lib/tftpboot/pxelinux.cfg/default
+      - mode: 644

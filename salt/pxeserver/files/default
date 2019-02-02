@@ -1,0 +1,12 @@
+default menu.c32
+promtp 0
+timeout 300
+ONTIMEOUT local
+
+
+menu title ##### PXE Boot Menu #####
+
+label 1
+MENU LABEL Arch Linux x86_64
+LINUX /arch/boot/x86_64/vmlinuz
+INITRD /arch/boot/intel_ucode.img,/arch/boot/amd_ucode.img,/arch/boot/x86_64/archiso.img

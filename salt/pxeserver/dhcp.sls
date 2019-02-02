@@ -11,6 +11,5 @@ dhcpd_confs:
 dhcpd:
   service.running:
     - enable: True
-    - reload: True
     - watch: 
       - dhcpd_confs

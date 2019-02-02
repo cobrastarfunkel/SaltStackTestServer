@@ -8,12 +8,13 @@ pxe_ports:
     - ports:
       - 67/udp
       - 68/udp
+      - 69/udp
     - prune_services: False
 
 pxeserver-pkgs:
   pkg.installed:
     - pkgs:
-      - vsftpd
+      - xinetd
       - dhcp
       - syslinux
 
