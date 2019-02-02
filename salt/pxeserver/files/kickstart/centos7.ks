@@ -4,6 +4,8 @@
 firewall --disabled
 # Install OS instead of upgrade
 install
+# Root pw
+rootpw --plaintext password
 # Use FTP installation media
 url --url="ftp://192.168.56.2/pub/"
 # System authorization information
@@ -29,13 +31,9 @@ part /boot --fstype xfs --size=300
 part pv.01 --size=1 --grow
 volgroup root_vg01 pv.01
 logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=1 --grow
-repo --name=salt-latest --baseurl=https://repo.saltstack.com/yum/redhat/7/$basearch/latest
-
 %packages
 @^minimal
 @core
-salt-minion
-vim
 %end
 %addon com_redhat_kdump --disable --reserve-mb='auto'
 %end
