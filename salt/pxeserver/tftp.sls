@@ -14,6 +14,11 @@ xinetd:
     - watch:
       - tftp_conf
 
+vsftpd:
+  service.running:
+    require:
+      - xinetd
+
 bios_tftp_dirs:
   file.directory:
     - name:      /var/lib/tftpboot/pxelinux.cfg
