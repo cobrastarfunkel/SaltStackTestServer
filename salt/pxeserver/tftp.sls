@@ -21,6 +21,11 @@ bios_tftp_dirs:
     - group:     root
     - dir_mode:  755
     - file_mode: 644
-    - makedirs: True
+    - makedirs:  True
 
-  
+move_boot_loaders:
+  cmd.run:
+    - name:      cp -rp /usr/share/syslinux/* /var/lib/tftpboot
+    - require:   
+      - sls: {{ tpldir }}.pxePacksPorts
+
