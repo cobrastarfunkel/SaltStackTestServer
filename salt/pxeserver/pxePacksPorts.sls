@@ -5,24 +5,17 @@ pxe_ports:
     - services:
       - tftp
       - dhcp
+    - ports:
+      - 67/udp
+      - 68/udp
     - prune_services: False
 
 pxeserver-pkgs:
   pkg.installed:
     - pkgs:
-      - tftp-server
+      - vsftpd
       - dhcp
+      - syslinux
 
-xinetd:
-  service.running:
-    - enable: True
-    - require: 
-      - pxeserver-pkgs
-
-dhcpd:
-  service.running:
-    - enable: True
-    - require: 
-      - pxeserver-pkgs
 
 

@@ -10,7 +10,8 @@ function main {
 
         # Make sure uid is abov 100 and below 65534, 65534 is used by an nfs account.
         # This is most likely different elsewhere.  Can be changed if you need that number
-        if ((id > 999)) && ((id != 65534)); then
+        # 0 is for root
+        if ((id > 999)) && ((id != 65534)) || ((id == 0)); then
 
             # Check if the directory already exists if not clone the git repo
             [[ -d /home/$user/.vim/bundle/Vundle.vim ]] || git clone https://github.com/VundleVim/Vundle.vim.git /home/$user/.vim/bundle/Vundle.vim;

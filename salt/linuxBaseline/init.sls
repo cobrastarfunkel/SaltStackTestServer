@@ -18,6 +18,7 @@ standardPackages:
       - vim
       - git
       - screen
+      - mlocate
 
 # screen config
 /etc/screenrc:

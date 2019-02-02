@@ -9,6 +9,7 @@
     - source: salt://{{ tpldir }}/vmIsos/archlinux-2019.01.01-x86_64.iso
     - mode:   644
 
+{% if not salt['file.directory_exists']('/mnt/arch/arch') %}
 mountArchIso:
   cmd.run:
     - name: mount -o loop,ro archlinux-2019.01.01-x86_64.iso /mnt/arch
@@ -16,4 +17,4 @@ mountArchIso:
     - require:
       - /media/archlinux-2019.01.01-x86_64.iso
       - /mnt/arch
-
+{% endif %}
