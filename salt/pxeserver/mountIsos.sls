@@ -79,10 +79,11 @@ centos7_test_ks:
     - source: salt://{{ tpldir }}/files/kickstart/centos7.ks
     - name:   /var/ftp/pub/centos7.ks
     - mode:   644
-
+    {#
 default_menu:
   file.managed:
       - source:   salt://{{ tpldir }}/files/pxe_menu/default
       - name:     /var/lib/tftpboot/pxelinux.cfg/default
       - mode:     644
       - template: jinja
+      #}

@@ -10,7 +10,7 @@ label 1
 MENU LABEL Arch Linux x86_64
 LINUX /arch/boot/x86_64/vmlinuz
 INITRD /arch/boot/intel_ucode.img,/arch/boot/amd_ucode.img,/arch/boot/x86_64/archiso.img
-APPEND archisobasedir=arch archiso_http_srv=http://192.168.56.2/ ip=::
+APPEND archisobasedir=arch archiso_http_srv=http://{{ server }}/ ip=::
 SYSAPPEND 2
 
 

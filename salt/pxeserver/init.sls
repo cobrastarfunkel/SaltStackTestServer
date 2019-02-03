@@ -5,7 +5,7 @@
 include:
   - {{ tpldir }}.pxePacksPorts
   - {{ tpldir }}.mountIsos
-  - {{ tpldir }}.dhcp
   - {{ tpldir }}.tftp
+  - {{ tpldir }}.pxeConfs
 
 
