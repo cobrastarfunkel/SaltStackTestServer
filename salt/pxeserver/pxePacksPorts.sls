@@ -11,12 +11,8 @@ pxe_ports:
     - services:
       - tftp
       - dhcp
-    - ports:
-      - 67/udp
-      - 68/udp
-      - 69/udp
-      - 21/tcp
-      - 20/tcp
+      - ftp
+      - http
     - prune_services: False
 
 pxeserver-pkgs:
