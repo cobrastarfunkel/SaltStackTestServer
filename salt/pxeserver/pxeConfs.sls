@@ -34,4 +34,4 @@ https_conf:
     - name: /etc/httpd/conf.d/pxe.conf
     - mode: 644
     - require:
-        - sls: salt://{{ tpldir }}.pxePacksPorts
+        - sls: {{ tpldir }}.pxePacksPorts
