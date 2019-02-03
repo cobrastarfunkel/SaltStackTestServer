@@ -24,5 +24,3 @@ pxeserver-pkgs:
       - httpd
       - syslinux
 
-
-

@@ -5,7 +5,7 @@
 pxe_{{ host }}_menu:
   file.managed:
     - source:   salt://{{ tpldir }}/files/pxe_menu/{{ host_data.os|lower }}
-    - name:     /var/lib/tftpboot/pxelinux.cfg/{{ host_data.mac|lower|replace(":", "-") }}
+    - name:     /var/lib/tftpboot/pxelinux.cfg/01-{{ host_data.mac|lower|replace(":", "-") }}
     - mode:     644
     - template: jinja
     - defaults:
@@ -27,3 +27,11 @@ dhcp_conf:
 dhcpd:
   service.running:
     - enable: True
+
+https_conf:
+  file.managed:
+    - source: salt://{{ tpldir }}/files/pxe.conf
+    - name: /etc/httpd/conf.d/pxe.conf
+    - mode: 644
+    - require:
+        - sls: salt://{{ tpldir }}.pxePacksPorts
