@@ -28,10 +28,15 @@ dhcpd:
   service.running:
     - enable: True
 
-https_conf:
+httpd_conf:
   file.managed:
     - source: salt://{{ tpldir }}/files/pxe.conf
     - name: /etc/httpd/conf.d/pxe.conf
     - mode: 644
     - require:
         - sls: {{ tpldir }}.pxePacksPorts
+
+httpd:
+  service.running:
+    - require:
+      - httpd_conf

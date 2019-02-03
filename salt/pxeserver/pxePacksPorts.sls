@@ -19,8 +19,12 @@ pxeserver-pkgs:
   pkg.installed:
     - pkgs:
       - xinetd
-      - tftp
+      - tftp-server
       - dhcp
       - httpd
       - syslinux
+      - vsftpd
 
+# Selinux rule for tftp
+setsebool -P tftp_anon_write 1:
+  cmd.run

@@ -4,13 +4,6 @@ include:
   - {{ tpldir }}.firewall
   - {{ tpldir }}.vim
 
-{#
-{% set vim_pkg = {
-    'RedHat': 'vim-enhanced',
-    'Debian': 'vim',
-}.get(grains.os_family) %}
-#}
-
 standardPackages:
   pkg.installed:
     - pkgs:
@@ -18,6 +11,8 @@ standardPackages:
       - git
       - screen
       - mlocate
+    - require_in:
+      - sls: {{ tpldir }}.vim
 
 # screen config
 /etc/screenrc:
