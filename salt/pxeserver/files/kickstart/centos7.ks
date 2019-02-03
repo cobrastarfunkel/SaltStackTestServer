@@ -34,6 +34,7 @@ logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=1 --grow
 %packages
 @^minimal
 @core
+vim-enhanced
 %end
 %addon com_redhat_kdump --disable --reserve-mb='auto'
 %end
