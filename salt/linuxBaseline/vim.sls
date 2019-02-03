@@ -1,19 +1,10 @@
-
-{% set name = {
-    'CentOS' : '/etc/vimrc',
-    'Raspbian' : '/etc/vim/vimrc',
-}.get(grains.os) %}
-
-{% set vimrc = {
-    'CentOS' : 'vimrc_Cent',
-    'Raspbian' : 'vimrc_Rasp',
-}.get(grains.os) %}
+{% from "linuxBaseline/vim/map.jinja" import vim with context %}
 
 vimrc_configs:
   file.managed:
-    - name: {{ name }}
+    - name: {{ vim.vimrc_path }}
     - mode : 644
-    - source: salt://{{ tpldir }}/files/{{ vimrc }}
+    - source: salt://{{ tpldir }}/files/{{ vim.vimrc }}
 
 # Adds Vundle to Home dir for users
 vundle_install:
