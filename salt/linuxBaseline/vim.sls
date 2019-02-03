@@ -11,3 +11,9 @@ vundle_install:
   cmd.script:
     - name: salt://{{ tpldir }}/files/userId.sh
     - cwd: /run
+
+install_vundle_plugins:
+  cmd.run:
+    - name: vim -c 'PluginInstall' -c 'qa!'
+    - require:
+      - vundle_install
