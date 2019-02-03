@@ -4,3 +4,6 @@
 
 #Ignore ISO dir
 vmIsos/
+
+#Ignore Formulas dir
+formulas/
