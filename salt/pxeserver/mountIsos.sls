@@ -11,6 +11,12 @@
   file.directory:
     - force:      True
 
+/var/www/arch:
+  file.directory:
+    - force: True
+    - require:
+      - sls: {{ tpldir }}.pxePacksPorts
+
 /media/{{ archiso }}:
   file.managed:
     - source:     salt://{{ tpldir }}/vmIsos/{{ archiso }}
@@ -31,6 +37,12 @@ move_arch_boot_files:
     - name:       cp -rp /mnt/arch/arch /var/lib/tftpboot/ 
     - require:
       - /media/{{ archiso }}
+
+move_arch_for_http:
+  cmd.run:
+    - name:       cp -rp /mnt/arch/arch /var/www/
+    - require:
+      - /var/www/arch
 
 /centos:
   file.directory:

@@ -16,7 +16,7 @@ xinetd:
 
 vsftpd:
   service.running:
-    require:
+    - require:
       - xinetd
 
 bios_tftp_dirs:

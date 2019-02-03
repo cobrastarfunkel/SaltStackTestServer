@@ -21,6 +21,7 @@ pxeserver-pkgs:
       - xinetd
       - tftp
       - dhcp
+      - httpd
       - syslinux
 
 
