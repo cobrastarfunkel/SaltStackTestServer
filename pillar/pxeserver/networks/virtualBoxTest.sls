@@ -3,7 +3,7 @@
  #}
 
 vBoxOne:   # Network name
-  subnet:             192.168.0.0                 # Subnet of the network
+  subnet:             192.168.0.0                 # Subnet
   gateway:            192.168.0.1                 # Network Default gateway
   netmask:            255.255.255.0                # Subnet Mask
   domain_name:       'test.com'                    # domain name
