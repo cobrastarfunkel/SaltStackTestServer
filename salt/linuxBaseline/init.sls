@@ -11,6 +11,7 @@ standardPackages:
       - git
       - screen
       - mlocate
+      - zsh
     - require_in:
       - sls: {{ tpldir }}.vim
 
