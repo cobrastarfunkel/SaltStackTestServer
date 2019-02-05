@@ -1,4 +1,4 @@
-# If coming from git create a directory for your iso's in pxeserver. Mine was named vmIsos
+# If coming from git create a directory for your iso's in pxeserver named vmIsos
 {# 
     TODO: Base these on the os pillar of the host that needs to be kicked maybe, maybe not.
     CentOS needs more than 1gb of ram for the pxeboot to succeed.
