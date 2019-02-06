@@ -2,19 +2,6 @@
 
 include:
   - {{ tpldir }}.firewall
+  - {{ tpldir }}.packages
   - {{ tpldir }}.vim
-
-standardPackages:
-  pkg.installed:
-    - pkgs:
-      - {{ vim.pkg }}
-      - git
-      - screen
-      - mlocate
-
-# screen config
-/etc/screenrc:
-  file.managed:
-    - source:     salt://{{ tpldir }}/files/screenrc
-    - mode:       644
-
+  
