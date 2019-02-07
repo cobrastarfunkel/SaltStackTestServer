@@ -49,8 +49,8 @@ def __virtual__():
 
 def _yum_run():
     '''
-    A private function to test running Yum updates by monitoring whether the
-    command returns certain Strings.  Also testing logging feature levels
+    A function to run Yum updates by monitoring whether the
+    command returns certain Strings.
 
     #### TODO: Need to mess with yum repo configs to cause errors to cover possible bad outcomes
 
