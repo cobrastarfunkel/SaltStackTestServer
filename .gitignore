@@ -7,3 +7,6 @@ vmIsos/
 
 #Ignore Formulas dir
 formulas/
+
+# Ignore win dir with repo pkgs
+win/
