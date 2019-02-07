@@ -100,7 +100,7 @@ def run_updates(reboot=False):
     Runs the _yum_run module, pushes the results in a file to the master, and reboots
     if yum had a successful update and True was passed as an argument.
     No packages marked for update is not considered successful because a reboot isn't required.
-    This will show in the output from Salt. Add yes to the command if you want it to reboot the
+    This will show in the output from Salt. Add True to the command if you want it to reboot the
     server on a successful update, it will not reboot if no packages are marked
     or an error with yum occurs even if you pass True as an argument.
 
@@ -127,10 +127,10 @@ def run_updates(reboot=False):
 
        if reboot:
          _sp.call("reboot", shell=True)
-         return (True, 'Reboot')
+         return ('Update Run and files pushed to master Rebooting.....')
 
        return (
-       'Update Run and files pushed to master Rebooting.....',
+       'Update Run and files pushed to master',
        'Log located in {} '.format(update_file_path))
 
     elif 'No_Packages' in push_file:
