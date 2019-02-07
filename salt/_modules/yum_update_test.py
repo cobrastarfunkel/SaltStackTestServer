@@ -67,14 +67,14 @@ def _yum_run():
     elif ('failed' in yum_output) or ('error' in yum_output) or ('errno' in yum_output):
         log.error('#### Yum Cmd Failed! ####')
         push_file = '{}_{}_FAILED'.format(__grains__['id'], time.strftime("%Y%m%d"))
-        f.write(yum_output)
         f = open('/tmp/{}'.format(push_file), 'w')
+        f.write(yum_output)
         return (False, push_file)
 
     else:
         push_file = '{}_{}_Succeeded'.format(__grains__['id'], time.strftime("%Y%m%d"))
-        f.write(yum_output)
         f = open('/tmp/{}'.format(push_file), 'w')
+        f.write(yum_output)
         return (True, push_file)
 
 
