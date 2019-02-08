@@ -11,4 +11,4 @@
         'vimrc': 'vimrc_Rasp',
         'vimrc_path': '/etc/vim/vimrc',
     },
-}, merge=salt['pillar.get']('vim:lookup')) %}
+}, default='Debian')%}
