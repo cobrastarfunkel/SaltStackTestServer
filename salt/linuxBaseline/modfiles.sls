@@ -8,17 +8,17 @@
 # Set the location of the file to modify
 {% set file_loc = "/home/grub" %}
 
-# Set the line to append to
+# Set the line to append to ex. Kernel line in grub.conf
 {% set append_line = "GRUB_DISABLE_SUB" %}
 
-# Set the value to append to the line
+# Set the value to append to the line ex add audit=1 to kernel commands
 {% set append_value = "audit=1" %}
 
 
-# Set the line to have awk replace something
+# Set the line to have awk replace something ex. Line with pw hash in grub.conf
 {% set awk_line = "GRUB_DEFAULT" %}
 
-# Set the value for awk to replace
+# Set the value for awk to replace ex. Has for pw in grub.conf.  Can and probably should be a pillar
 {% set awk_value = "TEST" %}
 
 
