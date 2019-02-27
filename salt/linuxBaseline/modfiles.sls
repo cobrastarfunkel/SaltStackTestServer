@@ -11,8 +11,8 @@ touch {{ file_loc }}.2:
 cp {{ file_loc }} {{ file_loc }}.back:
   cmd.run
 
-# Append to a Line
-sed -i '/GRUB_DISABLE_SUB/s/$/ audit=1/' {{ file_loc }}:
+# Append to a Line if what you're looking for isn't there isn't there
+if ! grep audit=1 {{ file_loc }}; then sed -i '/GRUB_DISABLE_SUB/s/$/ audit=1/' {{ file_loc }}; fi:
   cmd.run
 
 # Replace a value in a line into the awk file because you can't overwrite a file with itself using awk
