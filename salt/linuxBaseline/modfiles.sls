@@ -11,7 +11,7 @@ touch {{ file_loc }}.2:
 cp {{ file_loc }} {{ file_loc }}.back:
   cmd.run
 
-# Append to a Line if what you're looking for isn't there isn't there
+# Append to a Line if what you're looking for isn't in the file
 if ! grep audit=1 {{ file_loc }}; then sed -i '/GRUB_DISABLE_SUB/s/$/ audit=1/' {{ file_loc }}; fi:
   cmd.run
 
