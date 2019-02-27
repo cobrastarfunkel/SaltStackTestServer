@@ -17,7 +17,4 @@ vBoxOne:   # Network name
       ip_addr:        192.168.0.17       # Ip addr of host
       os:             'arch'             # os to be installed
 
-    archPC:
-      mac:            40:16:7E:E8:A6:0F
-      ip_addr:        192.168.0.4
-      os:             'arch'
+ 
