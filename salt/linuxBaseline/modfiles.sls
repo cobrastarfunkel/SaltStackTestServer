@@ -19,6 +19,6 @@ if ! grep audit=1 {{ file_loc }}; then sed -i '/GRUB_DISABLE_SUB/s/$/ audit=1/' 
 awk -F '=' '{ if($1 == "GRUB_DEFAULT")sub($2,"TEST"); print }' {{ file_loc }} > {{ file_loc }}.2:
   cmd.run
 
-# mv the new file into the original file
+# mv the awk file into the original file
 mv {{ file_loc }}.2 {{ file_loc }}:
   cmd.run
