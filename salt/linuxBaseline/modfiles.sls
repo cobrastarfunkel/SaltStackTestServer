@@ -1,12 +1,26 @@
+
+# Modifies a file by creating a backup under the file_loc variable .back,
+# appending the desired value to a defined line,
+# and replacing a value to a defined line.
+
+
+
+# Set the location of the file to modify
 {% set file_loc = "/home/grub" %}
 
+# Set the line to append to
 {% set append_line = "GRUB_DISABLE_SUB" %}
+
+# Set the value to append to the line
 {% set append_value = "audit=1" %}
 
+
+# Set the line to have awf replace something
 {% set awk_line = "GRUB_DEFAULT" %}
+
+# Set the value for awk to replace it with
 {% set awk_value = "TEST" %}
 
-# Modifies a file in a couple ways and creates a backup under the file_loc variable .back
 
 
 # Create a file for awk to modify to
