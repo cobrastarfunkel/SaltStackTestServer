@@ -16,3 +16,8 @@ vBoxOne:   # Network name
       mac:            08:00:27:BC:58:C5  # Mac address of nic on network that pxeserver interface is on
       ip_addr:        192.168.0.17       # Ip addr of host
       os:             'arch'             # os to be installed
+
+    archPC:
+      mac:            40:16:7E:E8:A6:0F
+      ip_addr:        192.168.0.4
+      os:             'arch'
