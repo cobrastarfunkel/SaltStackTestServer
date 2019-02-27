@@ -15,10 +15,10 @@
 {% set append_value = "audit=1" %}
 
 
-# Set the line to have awf replace something
+# Set the line to have awk replace something
 {% set awk_line = "GRUB_DEFAULT" %}
 
-# Set the value for awk to replace it with
+# Set the value for awk to replace
 {% set awk_value = "TEST" %}
 
 
