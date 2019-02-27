@@ -1,6 +1,6 @@
-{% set file_loc = "/home/grub.back" %}
+{% set file_loc = "/home/grub" %}
 
-# Modifies a file in a couple ways and creates a backup under the file_loc variable .bacl
+# Modifies a file in a couple ways and creates a backup under the file_loc variable .back
 
 
 # Create a file for awk to modify to
