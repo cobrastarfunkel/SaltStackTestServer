@@ -1,5 +1,5 @@
 
-{% import_yaml '/srv/pillar/groupsTest.yaml' as groups %}
+{% import_yaml 'groupsTest.yaml' as groups %}
 {% import '/srv/salt/jinjaTest.jinja' as jinTest %}
 
 {% if grains['id'] in groups.one %}
