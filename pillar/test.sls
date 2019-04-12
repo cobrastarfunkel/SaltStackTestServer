@@ -14,3 +14,9 @@ jinjaTest:
 {% endif %}
 
 salt_master:   salt-master
+
+{% if 'master' in grains['id'] %}
+string_match:
+  - Matched
+
+{% endif %}
