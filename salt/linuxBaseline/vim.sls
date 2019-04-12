@@ -14,10 +14,10 @@ vundle_install:
     - name: salt://{{ tpldir }}/files/userId.sh
     - cwd: /run
     - watch:
-      - file: vimrc_configs
+      - vimrc_configs
 
 install_vundle_plugins:
   cmd.run:
     - name: vim -c 'PluginInstall' -c 'qa!'
     - require:
-      - file: vimrc_configs
+      - vimrc_configs
