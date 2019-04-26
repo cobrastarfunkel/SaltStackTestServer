@@ -9,4 +9,4 @@ menu title ##### PXE Boot Menu #####
 label 1
 MENU LABEL CentOS 7
 KERNEL /centos/vmlinuz
-APPEND initrd=/centos/initrd.img inst.repo=ftp://{{ server }}/pub/ ks=ftp://{{ server }}/pub/centos7.ks
+APPEND initrd=/centos/initrd.img inst.repo=ftp://{{ server }}/pub/ ks=ftp://{{ server }}/pub/centos7{{ host }}.ks

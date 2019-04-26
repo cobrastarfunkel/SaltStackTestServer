@@ -1,5 +1,11 @@
 {% from "linuxBaseline/vim/map.jinja" import vim with context %}
 
+yum_repos:
+  file.recurse:
+    - name:   /etc/yum.repos.d
+    - source: salt://{{ tpldir }}/files/yum.repos.d
+    - clean: true
+
 standardPackages:
   pkg.installed:
     - pkgs:

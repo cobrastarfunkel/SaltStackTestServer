@@ -74,11 +74,6 @@ move_cent_boot_files:
       - /media/{{ centos_iso }}
       - /var/lib/tftpboot/centos
 
-centos7_test_ks:
-  file.managed:
-    - source: salt://{{ tpldir }}/files/kickstart/centos7.ks
-    - name:   /var/ftp/pub/centos7.ks
-    - mode:   644
     {#
 default_menu:
   file.managed:
