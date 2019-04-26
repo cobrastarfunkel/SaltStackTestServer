@@ -5,5 +5,7 @@
  #}
 
 include:
-  - {{ tpldir }}.networks:
-      key: networks      # Creates a top level key so networks can be nested
+  - {{ tpldir }}.networks.virtualBoxTest:
+      key: networks
+  - {{ tpldir }}.networks.test:
+      key: networks

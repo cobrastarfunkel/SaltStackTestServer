@@ -9,8 +9,8 @@ pxe_{{ host }}_menu:
     - mode:     644
     - template: jinja
     - defaults:
-        - server: {{ data.next_server }}
-        - host:   {{ host }}
+        server: {{ data.next_server }}
+        host:   {{ host }}
 
 centos7_{{ host }}_ks:
   file.managed:
@@ -19,11 +19,11 @@ centos7_{{ host }}_ks:
     - mode:     644
     - template: jinja
     - defaults:
-         - ipaddr:  {{ host_data.ip_addr }}
-         - gateway: {{ data.gateway }}
-         - macaddr: {{ host_data.mac|lower }}
-         - netmask: {{ data.netmask }}
-         - host:    {{ host }}
+         ipaddr:  {{ host_data.ip_addr }}
+         gateway: {{ data.gateway }}
+         macaddr: {{ host_data.mac|lower }}
+         netmask: {{ data.netmask }}
+         host:    {{ host }}
 
   {% endfor %}
 

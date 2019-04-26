@@ -1,9 +1,7 @@
 base:
   "*":
     - test
-
-
-# PxeServer Pillars
-  provisioning:
-    - match: nodegroup
+    #- virtualBoxTest
     - pxeserver
+
+
