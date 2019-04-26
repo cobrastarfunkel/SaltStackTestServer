@@ -7,7 +7,7 @@ install
 # Root pw
 rootpw --plaintext password
 # Use FTP installation media
-url --url="ftp://192.168.56.2/pub/"
+url --url=ftp://{{ next_server  }}/pub/
 # System authorization information
 auth useshadow passalgo=sha512
 # Use cmdline install
@@ -32,10 +32,18 @@ part pv.01 --size=1 --grow
 volgroup root_vg01 pv.01
 logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=1 --grow
 # Network Config
-network --bootproto=static --device={{ macaddr }} --ip={{ ipaddr }} --netmask={{ netmask }} --gateway={{ gateway }} --hostname={{ host }}
-%packages
+network --bootproto=static --device={{ macaddr }} --ip={{ ipaddr }} --netmask={{ netmask }} --gateway={{ gateway }} --hostname={{ host }} --nameserver=8.8.8.8
+%packages --ignoremissing
+vim-enhanced
 @^minimal
 @core
 %end
 %addon com_redhat_kdump --disable --reserve-mb='auto'
+%end
+%post
+%post
+for nic in $(grep -l NM_CONTROLLED.*yes /etc/sysconfig/network-scripts/ifcfg-*) 
+do
+sed -i "s/NM_CONTROLLED=yes/NM_CONTROLLED=no/"  $nic
+done
 %end

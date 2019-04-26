@@ -7,7 +7,7 @@ vBoxOne:                                         # Network name
   netmask:            255.255.255.0              # Subnet Mask
   domain_name:       'test.com'                  # domain name
   domain_server:      192.168.0.1                # dns server
-  next_server:        192.168.0.15               # tftp Server
+  next_server:        192.168.0.8                # tftp Server
   range:              192.168.0.50 192.168.0.60  # Ranges for dhcp
 
   hosts:                                 # Dictionary of hosts for this network

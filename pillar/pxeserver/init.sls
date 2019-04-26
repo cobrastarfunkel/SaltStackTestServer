@@ -7,5 +7,3 @@
 include:
   - {{ tpldir }}.networks.virtualBoxTest:
       key: networks
-  - {{ tpldir }}.networks.test:
-      key: networks
