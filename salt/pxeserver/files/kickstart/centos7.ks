@@ -30,7 +30,8 @@ part swap --asprimary --fstype="swap" --size=1024
 part /boot --fstype xfs --size=300
 part pv.01 --size=1 --grow
 volgroup root_vg01 pv.01
-logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=1 --grow
+logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=2048 --grow
+logvol /opt --fstype xfs --name=lv_opt --vgname=root_vg01 --size=2048
 # Network Config
 network --bootproto=static --device={{ macaddr }} --ip={{ ipaddr }} --netmask={{ netmask }} --gateway={{ gateway }} --hostname={{ host }} --nameserver=8.8.8.8
 %packages --ignoremissing
@@ -40,7 +41,6 @@ vim-enhanced
 %end
 %addon com_redhat_kdump --disable --reserve-mb='auto'
 %end
-%post
 %post
 for nic in $(grep -l NM_CONTROLLED.*yes /etc/sysconfig/network-scripts/ifcfg-*) 
 do
