@@ -15,9 +15,10 @@ vBoxOne:                                         # Network name
       mac:            08:00:27:BC:58:C5  # Mac address of nic on network that pxeserver interface is on
       ip_addr:        192.168.0.17       # Ip addr of host
       os:             'centos'           # os to be installed
-      {#
+      boot:           'bios'
+      
     bitbucket_srv:                    
-      mac:            08:00:27:BC:58:C5 
+      mac:            70:85:C2:BD:38:E9
       ip_addr:        192.168.0.9      
       os:             'centos'        
-      #}
+      boot:           'uefi'

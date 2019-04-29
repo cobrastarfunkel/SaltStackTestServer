@@ -69,16 +69,7 @@ mountCentIso:
 
 move_cent_boot_files:
   cmd.run:
-    - name:       cp -rp /centos/* /var/ftp/pub/ && cp -p /centos/images/pxeboot/* /var/lib/tftpboot/centos
+    - name:       cp -rp /centos/* /var/ftp/pub/ && cp -p /centos/images/pxeboot/* /var/lib/tftpboot/centos &&  cp -p /var/ftp/pub/EFI/BOOT/grubx64.efi /var/lib/tftpboot
     - require:
       - /media/{{ centos_iso }}
       - /var/lib/tftpboot/centos
-
-    {#
-default_menu:
-  file.managed:
-      - source:   salt://{{ tpldir }}/files/pxe_menu/default
-      - name:     /var/lib/tftpboot/pxelinux.cfg/default
-      - mode:     644
-      - template: jinja
-      #}

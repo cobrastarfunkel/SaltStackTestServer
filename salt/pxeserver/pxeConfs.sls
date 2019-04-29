@@ -5,12 +5,17 @@
 pxe_{{ host }}_menu:
   file.managed:
     - source:   salt://{{ tpldir }}/files/pxe_menu/{{ host_data.os|lower }}
+    {% if host_data.boot == 'bios' %}
     - name:     /var/lib/tftpboot/pxelinux.cfg/01-{{ host_data.mac|lower|replace(":", "-") }}
+    {% else %}
+    - name:     /var/lib/tftpboot/grub.cfg-01-{{ host_data.mac|lower|replace(":", "-") }}
+    {% endif %}
     - mode:     644
     - template: jinja
     - defaults:
         server: {{ data.next_server }}
         host:   {{ host }}
+        boot:   {{ host_data.boot }}
 
 centos7_{{ host }}_ks:
   file.managed:
