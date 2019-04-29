@@ -30,6 +30,7 @@ centos7_{{ host }}_ks:
          netmask:     {{ data.netmask }}
          host:        {{ host }}
          next_server: {{ data.next_server }}
+         boot:   {{ host_data.boot }}
 
   {% endfor %}
 

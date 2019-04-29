@@ -26,8 +26,11 @@ timezone America/Chicago
 # System bootloader configuration
 bootloader location=mbr
 clearpart --all --initlabel
-part swap --asprimary --fstype="swap" --size=1024
+{% if boot == "uefi" %}
+part /boot/efi --fstype=efi --size=300
+{% endif %}
 part /boot --fstype xfs --size=300
+part swap --asprimary --fstype="swap" --size=1024
 part pv.01 --size=1 --grow
 volgroup root_vg01 pv.01
 logvol / --fstype xfs --name=lv_root --vgname=root_vg01 --size=2048 --grow
