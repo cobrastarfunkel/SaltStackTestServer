@@ -1,3 +1,5 @@
+systemctl enable firewalld && systemctl enable firewalld:
+  cmd.run
 
 # Create the saltstack firewall service
 saltstack:
